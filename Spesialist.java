@@ -15,7 +15,9 @@ class Spesialist extends Lege implements Godkjenningsfritak { //Klassen Speialis
   public String toString() {
     return super.toString() + " med godkjenningsfritaket " + kontrollID;
   }
-  @Override
+  
+  //Overskriver reseptmetodene for spesialist.
+  @Override 
   public HvitResept skrivHvitResept(Legemiddel legemiddel, Pasient pasient, int reit){
       HvitResept hResept = new HvitResept(legemiddel , this , pasient, reit);
       utskrevedeResepter.leggTil(hResept);
