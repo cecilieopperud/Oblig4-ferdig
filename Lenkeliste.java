@@ -124,19 +124,21 @@ public class Lenkeliste<T> implements Liste<T> { //implementerer grensesnittet.
     }
 
 
-  public class LenkelisteIterator implements Iterator<T>{
+  public class LenkelisteIterator implements Iterator<T>{ //indre klasse LenkelisteIterator som implementerer Iterator<T>.
     private int indeks = 0;
     private Liste<T> liste;
 
     public LenkelisteIterator(Liste<T> n){
     liste = n;
     }
+    
+    //ved aa implementere metodene next() og hasNext() har man tilgang til for-each-notasjon.
     @Override
-    public T next(){
+    public T next(){ //henter ut neste element.
       return liste.hent(indeks++);
     }
-    @Override
-    public boolean hasNext(){
+    @Override 
+    public boolean hasNext(){ //returnerer true saa lenge den finner et neste element i listen.
       return indeks<liste.stoerrelse();
   }
   @Override
