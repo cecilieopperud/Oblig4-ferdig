@@ -13,7 +13,7 @@ public class PResept extends HvitResept { //Subklasse av HvitResept.
     return 0; //Hvis ikke returnerer den 0.
   }
   @Override
-  public String farge(){
+  public String farge(){ //returnerer p for p-resept.
     return "p";
   }
 }
