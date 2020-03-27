@@ -39,7 +39,7 @@ class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
     }
   }
 
-  public MilaeterResept skrivMillitaerResept(Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift { //Oppretter hvit resept.
+  public MilaeterResept skrivMillitaerResept(Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift { //Oppretter millitaer resept.
     MilaeterResept mResept = new MilaeterResept(legemiddel, this, pasient, reit);
     if (mResept.hentLegemiddel() instanceof Narkotisk) { //Dersom det er narkotisk.
       throw new UlovligUtskrift( this, legemiddel, pasient.hentID()); //Kaster unntaket UlovligUtskrift.
@@ -51,7 +51,7 @@ class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
     }
   }
 
-  public PResept skrivPResept(Legemiddel legemiddel, Pasient pasient) throws UlovligUtskrift{ //Oppretter hvit resept.
+  public PResept skrivPResept(Legemiddel legemiddel, Pasient pasient) throws UlovligUtskrift{ //Oppretter p-resept.
     PResept pResept = new PResept(legemiddel , this, pasient);
       if (pResept.hentLegemiddel() instanceof Narkotisk){ //Dersom det er narkotisk.
         throw new UlovligUtskrift( this, legemiddel, pasient.hentID()); //Kaster unntaket UlovligUtskrift.
@@ -63,7 +63,7 @@ class Lege implements Comparable<Lege> { //Oppretter klassen Lege.
       }
     }
 
-  public BlaaResept skrivBlaaResept(Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift { //Oppretter hvit resept.
+  public BlaaResept skrivBlaaResept(Legemiddel legemiddel, Pasient pasient, int reit) throws UlovligUtskrift { //Oppretter blaa resept.
 
     BlaaResept bResept = new BlaaResept(legemiddel , this , pasient, reit);
 
