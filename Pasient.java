@@ -7,40 +7,40 @@
 
 
 public class Pasient {
-	int ID;
-	static int teller = 0;
-	String fodselsnummer;
+	int ID; 
+	static int teller = 0; //static teller som legges til ID for aa gi hver pasient en unik id.
+	String fodselsnummer; 
 	String navn;
-	Stabel<Resepter> stabel = new Stabel<Resepter>();
+	Stabel<Resepter> stabel = new Stabel<Resepter>(); //Pasientens stabel med resepter.
 
-	public Pasient(String n, String f){
+	public Pasient(String n, String f){ //gir variabelene verdier og legger til teller paa ID.
     	fodselsnummer = f;
 			navn = n;
     	ID = teller ++;
     }
 
-	public String hentFodselsnummer (){
+	public String hentFodselsnummer (){ //returnerer fodselsnummer.
 		return fodselsnummer;
 		}
 
-	public String hentNavn(){
+	public String hentNavn(){ //returnerer pasientens navn.
 		return navn;
 		}
 
-	public int hentID(){
+	public int hentID(){ //returnerer pasientens id.
 		return ID;
 	}
 
-	public void leggTilResept(Resepter r){
+	public void leggTilResept(Resepter r){ //legger til resept i pasientens stabel.
 		stabel.leggPaa(r);
 	}
 
-	public Stabel<Resepter> hentReseptene(){
+	public Stabel<Resepter> hentReseptene(){ //Returnerer pasientens resepter.
 		return stabel;
 	}
 
 	@Override
-	public String toString() {
+	public String toString() { //returnerer ryddig utskrift med nodvendig informasjon.
 		return "Pasient: " + navn + ", Foedselsnummer: " + fodselsnummer + ", ID: " + ID;
 	}
 }
