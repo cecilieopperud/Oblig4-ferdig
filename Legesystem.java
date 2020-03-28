@@ -318,7 +318,7 @@ public class Legesystem{
 
               System.out.println("Velg lege: ");
               skrivUtlegeListe();
-              String l = (les.nextLine().toLowerCase());
+              String l = les.nextLine();
 
               System.out.println("Velg pasient: Tast inn id");
               skrivUtpasientListe();
