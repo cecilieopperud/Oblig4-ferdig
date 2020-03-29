@@ -30,8 +30,8 @@ public class Legesystem{
         System.out.println("Fant desverre ikke filen");
 
       }
-    
-      //Kommandoloekken bruker scanneren for aa lese inn linje for linje. Split deler opp informasjonen mellom hvert komma. 
+
+      //Kommandoloekken bruker scanneren for aa lese inn linje for linje. Split deler opp informasjonen mellom hvert komma.
       //En teller holder styr på hvilken kategori som leses inn ved å legistrere antall #.
       int teller = 0;
       while(innlesing.hasNextLine()){
@@ -41,7 +41,7 @@ public class Legesystem{
         teller ++;
         denneLinja = innlesing.nextLine();
       }
-        //Leser inn pasient-info. 
+        //Leser inn pasient-info.
         if(teller == 1){
 
             String[] biter= denneLinja.split(",");
@@ -170,19 +170,19 @@ public class Legesystem{
         }
       }
     }
-    
+
     //Metode som printer at en input er ugyldig.
     public void feilmelding(){
       System.out.println("Ugyldig input");
     }
 
-    //Metode for opprettelse av en meny til legesystemet. Bruker en scanner for å lese input fra bruker. 
+    //Metode for opprettelse av en meny til legesystemet. Bruker en scanner for å lese input fra bruker.
     public void menyLinje(){
       System.out.println("\n\nVelkommen");
 
       Scanner les = new Scanner(System.in);
 
-      //Hovedmenyen printer en oversikt over ulike valgmuligheter. 
+      //Hovedmenyen printer en oversikt over ulike valgmuligheter.
       int input = 0;
       while (input != 10) {
         System.out.println("\nHOVEDMENY\n\nValgmuligheter:\n\n-Tast 0 for oversikt over pasienter\n-Tast 1 for leger\n-Tast 2 for legemidler");
@@ -194,12 +194,14 @@ public class Legesystem{
         //Oversikt over pasienter
         if(input == 0) {
           System.out.println("Hvilken pasient vil du se resepter for? Skriv inn ID.\n");
-          for (int i = 0; i < pasientListe.stoerrelse(); i++) {
-            System.out.println(pasientListe.hent(i));
+          skrivUtpasientListe();
+          int pasientId = Integer.parseInt(les.nextLine());
+          if(pasientListe.stoerrelse() < pasientId){
+            feilmelding();
           }
+          else{
           //Mulighet for å bruke resepten en gang.
           System.out.println("");
-          int pasientId = Integer.parseInt(les.nextLine());
           Resepter riktigResept = null;
           System.out.println("Valgt " + pasientListe.hent(pasientId) + "\n");
           for (int i = 0; i < reseptListe.stoerrelse(); i++){
@@ -218,6 +220,7 @@ public class Legesystem{
             System.out.println("Pasienten " + pasientListe.hent(pasientId).hentNavn() + " eier ingen resepter");
           }
         }
+      }
           //Oversikt over legene
           if(input == 1) {
             skrivUtlegeListe();
@@ -262,7 +265,7 @@ public class Legesystem{
               feilmelding();
             }
             }
-          //Oppretter og legger inn nytt legemiddel basert på brukerens input. 
+          //Oppretter og legger inn nytt legemiddel basert på brukerens input.
           if(input == 6){
             System.out.println("Skriv inn legemiddel (narkotisk, vanlig eller vanedannende): ");
             String svaret = les.nextLine().toLowerCase();
@@ -310,37 +313,49 @@ public class Legesystem{
             System.out.println("Hva slags type resept vil du opprette? Hvit, blaa, militaer eller p-resept?");
             String svar = les.nextLine().toLowerCase();
             Resepter resepten = null;
+            skrivUtlegemiddelListe();
+            System.out.println("");
+
             if(svar.contains("hvit") || svar.contains("blaa") || svar.contains("militaer") || svar.contains("p-resept")){
               System.out.println("Velg legemiddel: Tast inn id");
-
-              skrivUtlegemiddelListe();
               int lm = Integer.parseInt(les.nextLine());
 
+              if(lm > legemiddelListe.stoerrelse()){
+              feilmelding();
+              }
+              else{
+              Lege lege = null;
               System.out.println("Velg lege: ");
               skrivUtlegeListe();
               String l = les.nextLine();
-
-              System.out.println("Velg pasient: Tast inn id");
-              skrivUtpasientListe();
-              int p = Integer.parseInt(les.nextLine());
-
-              Legemiddel legemiddel = legemiddelListe.hent(lm);
-              Pasient pasient = pasientListe.hent(p);
-              Lege lege = null;
               for(int i = 0; i < legeListe.stoerrelse(); i++){
                 if(legeListe.hent(i).hentNavn().contains(l)){
                   lege = legeListe.hent(i);
                 }
               }
-              if(lege == null || pasient == null || legemiddel == null){
+              if(lege == null){
                 feilmelding();
               }
+              else{
+                skrivUtpasientListe();
+              System.out.println("Velg pasient: Tast inn id");
+              int p = Integer.parseInt(les.nextLine());
+
+              if(p > pasientListe.stoerrelse()){
+                feilmelding();
+              }
+              else{
+              Legemiddel legemiddel = legemiddelListe.hent(lm);
+              Pasient pasient = pasientListe.hent(p);
+
+
+
+
               try{
                 if(svar.contains("militaer")){
                   System.out.println("Skriv inn reit: ");
                   int reit = Integer.parseInt(les.nextLine());
                   resepten = lege.skrivMillitaerResept(legemiddel, pasient, reit);
-
                   System.out.println("Reseptet er naa opprettet og lagt til");
                 }
                 else if(svar.contains("hvit")){
@@ -368,10 +383,17 @@ public class Legesystem{
             }
             }
             catch (UlovligUtskrift u){
-              System.out.println(u);
+              feilmelding();
             }
           }
         }
+      }
+    }
+    else{
+      feilmelding();
+    }
+  }
+
         //Skriver all gammel og ny info til en ny txt-fil. Bruker PrintWriter til aa skrive inn.
         if(input == 8){
           File fil = new File("nyFil.txt");
@@ -440,7 +462,7 @@ public class Legesystem{
         catch(IOException e){
            System.out.println("Ugyldig");
          }
-}      
+}
        //Printer statistikk for antall narkotiske resepter, antall vanedannende resepter og pasienter med gyldige narkotiske resepter.
        if(input == 9){
          System.out.println("\nSTATISTIKK");
